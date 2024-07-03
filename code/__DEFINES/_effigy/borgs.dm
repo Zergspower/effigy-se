@@ -1,5 +1,5 @@
 //Module - altborgs
-//Defines for quadborgs and stuff
+//Defines for dogborgs and stuff
 #define ROBOT_REST_NORMAL 1
 #define ROBOT_REST_SITTING 2
 #define ROBOT_REST_BELLY_UP 3
@@ -10,19 +10,17 @@
 /// For the new system of borg making
 #define SKIN_FEATURES "skin_features"
 
-/// Defines for model features, set in the model_features list of a robot model datum. Are they a quadborg? Is the model small? etc.
+/// Defines for model features, set in the model_features list of a robot model datum. Are they a dogborg? Is the model small? etc.
 /// Cyborgs with unique sprites for when they get totally broken down.
-#define TRAIT_R_UNIQUEWRECK	"unique_wreck"
+#define R_TRAIT_UNIQUEWRECK	"unique_wreck"
 /// Or when tipped over.
-#define TRAIT_R_UNIQUETIP	"unique_tip"
-/// Represents wide/quadruped/quadborg type models.
-#define TRAIT_R_WIDE		"wide_borg"
+#define R_TRAIT_UNIQUETIP	"unique_tip"
+/// Represents wide/quadruped/dogborg type models.
+#define R_TRAIT_WIDE		"wide_borg"
 /// 32x64 skins
-#define TRAIT_R_TALL		"tall_borg"
+#define R_TRAIT_TALL		"tall_borg"
 /// Any model small enough to reject the shrinker upgrade.
-#define TRAIT_R_SMALL		"small_chassis"
-/// Any model that has a custom front panel
-#define TRAIT_R_UNIQUEPANEL "unique_openpanel"
+#define R_TRAIT_SMALL		"small_chassis"
 
 /// To store all the different cyborg models, instead of creating that for each cyborg.
 GLOBAL_LIST_EMPTY(cyborg_model_list)
