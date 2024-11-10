@@ -222,7 +222,7 @@
 		is_captain = IS_FULL_CAPTAIN
 		captain_sound = 'sound/misc/announce_dig.ogg' // EffigyEdit Change - original: sound/misc/announce.ogg
 	// If we don't have an assigned cap yet, check if this person qualifies for some from of captaincy.
-	else if(!SSjob.assigned_captain && ishuman(character) && SSjob.chain_of_command[rank] && !is_banned_from(ckey, list(JOB_CAPTAIN)))
+	else if(!SSjob.assigned_captain && ishuman(character) && SSjob.chain_of_command[rank] && !is_banned_from(character.ckey, list(JOB_CAPTAIN)))
 		is_captain = IS_ACTING_CAPTAIN
 	if(is_captain != IS_NOT_CAPTAIN)
 		minor_announce(job.get_captaincy_announcement(character), sound_override = captain_sound)
@@ -240,7 +240,6 @@
 	if(humanc) //These procs all expect humans
 		// EffigyEdit Change START - CUSTOMIZATION
 		var/chosen_rank = rank // put alt job here
-		GLOB.manifest.inject(humanc, humanc.client)
 		if(SSshuttle.arrivals && humanc.client.prefs.read_preference(/datum/preference/choiced/latejoin_location) == JOB_LATEJOINPREF_ARRIVALS) /// EFFIGY EDIT - Latejoin Spawnpref
 			SSshuttle.arrivals.QueueAnnounce(humanc, chosen_rank)
 		else
@@ -268,6 +267,9 @@
 
 	if((job.job_flags & JOB_ASSIGN_QUIRKS) && humanc && CONFIG_GET(flag/roundstart_traits))
 		SSquirks.AssignQuirks(humanc, humanc.client)
+
+	if(humanc) // Quirks may change manifest datapoints, so inject only after assigning quirks
+		GLOB.manifest.inject(humanc)
 
 	var/area/station/arrivals = GLOB.areas_by_type[/area/station/hallway/secondary/entry]
 	if(humanc && arrivals && !arrivals.power_environ) //arrivals depowered

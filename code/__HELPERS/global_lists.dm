@@ -56,9 +56,9 @@
 	// EffigyEdit Add - Vocal Bloopers
 	for(var/blooper_path in subtypesof(/datum/blooper))
 		var/datum/blooper/bloop = new blooper_path()
-		GLOB.blooper_list[bloop.id] = blooper_path
+		GLOB.blooper_list[bloop.id] = bloop
 		if(bloop.allow_random)
-			GLOB.blooper_random_list[bloop.id] = blooper_path
+			GLOB.blooper_random_list[bloop.id] = bloop
 	// EffigyEdit Add End
 
 /// Inits GLOB.surgeries
@@ -251,7 +251,7 @@ GLOBAL_LIST_INIT(WALLITEMS_INTERIOR, typecacheof(list(
 	/obj/machinery/defibrillator_mount,
 	/obj/machinery/firealarm,
 	/obj/machinery/flasher,
-	/obj/machinery/keycard_auth,
+	/obj/machinery/keycard_auth/wall_mounted,
 	/obj/machinery/light_switch,
 	/obj/machinery/newscaster,
 	/obj/machinery/power/apc,

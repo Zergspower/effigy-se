@@ -234,11 +234,7 @@
 	return FALSE
 
 /obj/effect/mob_spawn/ghost_role/human/ash_walker/special(mob/living/carbon/human/spawned_human)
-	// EffigyEdit Change - Moved lizard name randomizer before parent call (so character names are preserved)
-	spawned_human.fully_replace_character_name(null, spawned_human.generate_random_mob_name(TRUE))
-	quirks_enabled = TRUE
 	. = ..()
-	// EffigyEdit Change End
 	to_chat(spawned_human, "<b>Drag the corpses of men and beasts to your nest. It will absorb them to create more of your kind. Invade the strange structure of the outsiders if you must. Do not cause unnecessary destruction, as littering the wastes with ugly wreckage is certain to not gain you favor. Glory to the Necropolis!</b>")
 
 	spawned_human.mind.add_antag_datum(/datum/antagonist/ashwalker, team)
@@ -286,6 +282,7 @@
 	important_text = "The base is rigged with explosives, DO NOT abandon it or let it fall into enemy hands!"
 	outfit = /datum/outfit/lavaland_syndicate
 	spawner_job_path = /datum/job/lavaland_syndicate
+	deletes_on_zero_uses_left = FALSE
 
 /obj/effect/mob_spawn/ghost_role/human/lavaland_syndicate/special(mob/living/new_spawn)
 	. = ..()
@@ -328,6 +325,21 @@
 	mask = /obj/item/clothing/mask/chameleon/gps
 	r_hand = /obj/item/melee/energy/sword/saber
 
+/datum/outfit/lavaland_syndicate/comms/icemoon
+	name = "Icemoon Syndicate Comms Agent"
+	mask = /obj/item/clothing/mask/chameleon
+	shoes = /obj/item/clothing/shoes/winterboots/ice_boots/eva
+
 /obj/item/clothing/mask/chameleon/gps/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/gps, "Encrypted Signal")
+
+///Icemoon Syndicate Comms Agent
+
+/obj/effect/mob_spawn/ghost_role/human/lavaland_syndicate/comms/icemoon
+	name = "Icemoon Comms Agent"
+	prompt_name = "a syndicate comms agent"
+	you_are_text = "You are a syndicate comms agent, assigned in an underground secret listening post close to your enemy's facility."
+	flavour_text = "Unfortunately, your hated enemy, Nanotrasen, has begun mining in this sector. Monitor enemy activity as best you can, and try to keep a low profile. Use the communication equipment to provide support to any field agents, and sow disinformation to throw Nanotrasen off your trail. Do not let the outpost fall into enemy hands!"
+	important_text = "Do NOT let the outpost fall into enemy hands"
+	outfit = /datum/outfit/lavaland_syndicate/comms/icemoon
