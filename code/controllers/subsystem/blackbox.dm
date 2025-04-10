@@ -152,6 +152,8 @@ SUBSYSTEM_DEF(blackbox)
 			record_feedback("tally", "radio_usage", 1, "centcom")
 		if(FREQ_AI_PRIVATE)
 			record_feedback("tally", "radio_usage", 1, "ai private")
+		if(FREQ_ENTERTAINMENT)
+			record_feedback("tally", "radio_usage", 1, "entertainment")
 		if(FREQ_CTF_RED)
 			record_feedback("tally", "radio_usage", 1, "CTF red team")
 		if(FREQ_CTF_BLUE)
@@ -160,10 +162,6 @@ SUBSYSTEM_DEF(blackbox)
 			record_feedback("tally", "radio_usage", 1, "CTF green team")
 		if(FREQ_CTF_YELLOW)
 			record_feedback("tally", "radio_usage", 1, "CTF yellow team")
-		/// EffigyEdit Add - Broadcast Team
-		if(FREQ_BROADCAST)
-			record_feedback("tally", "radio_usage", 1, "broadcast")
-		/// EffigyEdit Add End
 		else
 			record_feedback("tally", "radio_usage", 1, "other")
 

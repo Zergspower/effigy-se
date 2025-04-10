@@ -1,4 +1,3 @@
-/* EffigyEdit ISSUE #862
 // Set up the types of items that can be placed in the mask
 /datum/storage/pockets/small/bdsm_mask
 	max_slots = 1
@@ -16,8 +15,11 @@
 	icon = 'local/icons/lewd/obj/lewd_clothing/lewd_masks.dmi'
 	icon_state = "mask_pink_off"
 	base_icon_state = "mask"
-	slot_flags = ITEM_SLOT_MASK
+	has_fov = FALSE
 	starting_filter_type = null
+	w_class = WEIGHT_CLASS_SMALL
+	flags_cover = MASKCOVERSMOUTH
+	flags_inv = HIDEFACIALHAIR|HIDESNOUT
 	var/mask_on = FALSE
 	var/current_mask_color = "pink"
 	var/breath_status = TRUE
@@ -38,9 +40,7 @@
 	var/temp_check = TRUE //Used to check if user unconsious to prevent choking him until he wakes up
 	/// Does the gasmask impede the user's ability to talk?
 	var/speech_disabled
-	w_class = WEIGHT_CLASS_SMALL
-	modifies_speech = TRUE
-	flags_cover = MASKCOVERSMOUTH
+	var/modifies_speech = TRUE
 
 /obj/item/clothing/mask/gas/bdsm_mask/Initialize(mapload)
 	. = ..()
@@ -71,7 +71,20 @@
 			button.button_icon = 'local/icons/lewd/obj/lewd_items/lewd_icons.dmi'
 	update_icon()
 
-/obj/item/clothing/mask/gas/bdsm_mask/handle_speech(datum/source, list/speech_args)
+/obj/item/clothing/mask/gas/bdsm_mask/equipped(mob/equipper, slot)
+	. = ..()
+	if ((slot & ITEM_SLOT_MASK) && modifies_speech)
+		RegisterSignal(equipper, COMSIG_MOB_SAY, PROC_REF(handle_speech))
+	else
+		UnregisterSignal(equipper, COMSIG_MOB_SAY)
+
+/obj/item/clothing/mask/gas/bdsm_mask/dropped(mob/dropper)
+	. = ..()
+	UnregisterSignal(dropper, COMSIG_MOB_SAY)
+
+/obj/item/clothing/mask/gas/bdsm_mask/proc/handle_speech(datum/source, list/speech_args)
+	SIGNAL_HANDLER
+
 	if(speech_disabled)
 		return
 
@@ -79,7 +92,7 @@
 	play_lewd_sound(loc, pick('local/sound/effects/lewd/under_moan_f1.ogg',
 						'local/sound/effects/lewd/under_moan_f2.ogg',
 						'local/sound/effects/lewd/under_moan_f3.ogg',
-						'local/sound/effects/lewd/under_moan_f4.ogg'), 70, 1, -1)
+						'local/sound/effects/lewd/under_moan_f4.ogg'), 70, 1, -1, pref_to_check = /datum/preference/toggle/erp/moan_sounds)
 
 // Create radial menu
 /obj/item/clothing/mask/gas/bdsm_mask/proc/populate_mask_designs()
@@ -105,7 +118,7 @@
 /obj/item/clothing/mask/gas/bdsm_mask/proc/check_menu(mob/living/user)
 	if(!istype(user))
 		return FALSE
-	if(user.incapacitated())
+	if(user.incapacitated)
 		return FALSE
 	return TRUE
 
@@ -136,12 +149,12 @@
 // To make in unremovable without helping when mask is on (for MouseDrop)
 /datum/storage/pockets/small/bdsm_mask/on_mousedrop_onto(datum/source, atom/over_object, mob/user)
 	var/obj/item/clothing/mask/gas/bdsm_mask/mask = source
-	if(!istype(mask) || ismecha(user.loc) || user.incapacitated() || !mask.is_locked(user))
+	if(!istype(mask) || ismecha(user.loc) || user.incapacitated || !mask.is_locked(user))
 		return ..()
 	return NONE //handled in mask mousedrop, don't allow content dumping
 
 /obj/item/clothing/mask/gas/bdsm_mask/mouse_drop_dragged(atom/over_object, mob/user, src_location, over_location, params)
-	if(ismecha(user.loc) || user.incapacitated() || !is_locked(user))
+	if(ismecha(user.loc) || user.incapacitated || !is_locked(user))
 		return
 	if(!istype(over_object, /atom/movable/screen/inventory/hand))
 		return
@@ -353,5 +366,3 @@
 		return ..()
 	to_chat(user, span_warning("You can't change the flow rate of the valve while the mask is on!"))
 	return CLICK_ACTION_BLOCKING
-
-*/

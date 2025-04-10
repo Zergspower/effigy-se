@@ -15,9 +15,6 @@
 	. = ..()
 	set_picture("synd")
 
-/obj/machinery/door/window
-	icon = 'local/icons/obj/directwindow.dmi'
-
 /obj/machinery/power/emitter
 	icon = 'local/icons/obj/engine/emitter.dmi'
 
@@ -27,13 +24,14 @@
 /obj/machinery/power/rad_collector
 	icon = 'local/icons/obj/engine/emitter.dmi'
 
-
+/*
 #ifndef UNIT_TESTS
 /obj/machinery/light_switch/post_machine_initialize()
 	. = ..()
 	if(prob(70) && area.lightswitch) //70% chance for area to start with lights off.
 		turn_off()
 #endif
+*/
 
 /obj/machinery/light_switch/proc/turn_off()
 	if(!area.lightswitch)

@@ -137,7 +137,7 @@
 	var/previous_airlock = /obj/structure/door_assembly
 	/// Material of inner filling; if its an airlock with glass, this should be set to "glass"
 	var/airlock_material
-	var/overlays_file = 'local/icons/obj/doors/airlocks/station/overlays.dmi'
+	var/overlays_file = 'icons/obj/doors/airlocks/station/overlays.dmi'
 	/// Used for papers and photos pinned to the airlock
 	var/note_overlay_file = 'icons/obj/doors/airlocks/station/overlays.dmi'
 
@@ -516,8 +516,7 @@
 		if(AIRLOCK_DENY, AIRLOCK_OPENING, AIRLOCK_CLOSING, AIRLOCK_EMAG)
 			icon_state = "nonexistenticonstate" //MADNESS
 
-// EffigyEdit Change START (#74 Airlocks)
-/*
+/* EffigyEdit Remove - Moved to local/code/game/machinery/doors/airlock.dm
 /obj/machinery/door/airlock/update_overlays()
 	. = ..()
 
@@ -597,7 +596,6 @@
 					floorlight.pixel_y = 0
 			. += floorlight
 */
-// EffigyEdit Change END (#74 Airlocks)
 
 /obj/machinery/door/airlock/run_animation(animation)
 	switch(animation)
@@ -1284,7 +1282,6 @@
 	var/open_delay = animation_segment_delay(AIRLOCK_OPENING_FINISHED) - transparent_delay - passable_delay
 	sleep(open_delay)
 	layer = OPEN_DOOR_LAYER
-	sleep(0.4 SECONDS) // EffigyEdit Change
 	update_icon(ALL, AIRLOCK_OPEN, TRUE)
 	operating = FALSE
 	if(delayed_close_requested)
@@ -1667,7 +1664,7 @@
 	data["wires"] = wire
 	return data
 
-/obj/machinery/door/airlock/ui_act(action, params)
+/obj/machinery/door/airlock/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
 	. = ..()
 	if(.)
 		return
@@ -2515,7 +2512,8 @@
 	set_density(TRUE)
 	operating = FALSE
 	return TRUE
-/*  // EffigyEdit Change - Moved to code/__DEFINES/_effigy/airlock.dm
+
+/*
 #undef AIRLOCK_SECURITY_NONE
 #undef AIRLOCK_SECURITY_IRON
 #undef AIRLOCK_SECURITY_PLASTEEL_I_S
@@ -2540,4 +2538,4 @@
 #undef AIRLOCK_FRAME_CLOSING
 #undef AIRLOCK_FRAME_OPEN
 #undef AIRLOCK_FRAME_OPENING
-*/  // EffigyEdit Change End
+*/

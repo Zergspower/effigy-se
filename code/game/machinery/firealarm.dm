@@ -187,16 +187,16 @@
 		else
 			. += mutable_appearance(icon, "fire_disabled")
 			. += emissive_appearance(icon, "fire_level_e", src, alpha = src.alpha)
-			set_light(l_color = COLOR_LIGHT_FIXTURE_NORMAL) // EffigyEdit Change
+			set_light(l_color = COLOR_WHITE)
 
 	else if(my_area?.fire_detect && my_area?.fire)
 		. += mutable_appearance(icon, "fire_alerting")
 		. += emissive_appearance(icon, "fire_alerting_e", src, alpha = src.alpha)
-		set_light(l_color = COLOR_WHITE)
+		set_light(l_color = LIGHT_COLOR_INTENSE_RED)
 	else
 		. += mutable_appearance(icon, "fire_alerting")
 		. += emissive_appearance(icon, "fire_alerting_e", src, alpha = src.alpha)
-		set_light(l_color = COLOR_WHITE)
+		set_light(l_color = LIGHT_COLOR_INTENSE_RED)
 
 /obj/machinery/firealarm/emp_act(severity)
 	. = ..()
